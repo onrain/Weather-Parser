@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FirstViewController : UIViewController
+@interface FirstViewController : UIViewController<UISearchBarDelegate, UITabBarControllerDelegate, UITableViewDataSource>
+{
+    NSArray *search_result;
+}
+
+@property(nonatomic, retain) IBOutlet UITableView *searchTable;
+
+@property(nonatomic, retain) IBOutlet UISearchBar *search_Bar;
 
 @end
