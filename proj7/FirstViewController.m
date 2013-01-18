@@ -23,8 +23,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"First", @"First");
-        self.tabBarItem.image = [UIImage imageNamed:@"first"];
+        self.title = NSLocalizedString(@"Search", @"Searh");
+        self.tabBarItem.image = [UIImage imageNamed:@"f"];
     }
     return self;
 }
@@ -61,11 +61,10 @@
     @try {
 
        search_result = [[json objectForKey:@"search_api"] objectForKey:@"result"];
-        
-        if([search_result count] != 0) {
-            [searchTable setHidden:NO];
-            [searchTable reloadData];
-        }
+
+       [searchTable setHidden:NO];
+       [searchTable reloadData];
+
 
     }
     @catch (NSException *exception) {
@@ -97,14 +96,23 @@
     
     NSString *region = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"region"] objectAtIndex:0] objectForKey:@"value"];
     NSString *country = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"country"] objectAtIndex:0] objectForKey:@"value"];
-   NSString *value = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"areaName"] objectAtIndex:0] objectForKey:@"value"];
-     
+    NSString *value = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"areaName"] objectAtIndex:0] objectForKey:@"value"];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ / %@ / %@", value, region, country];
 
-    
     return cell;
 }
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *value = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"areaName"] objectAtIndex:0] objectForKey:@"value"];
+    NSString *country = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"country"] objectAtIndex:0] objectForKey:@"value"];
+    value = [value stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    country = [country stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:1];
+    
+    [self.delegate passendLocationDate:self data:[NSString stringWithFormat:@"%@,%@", value, country]];
+    
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];

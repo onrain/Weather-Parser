@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FirstViewController.h"
 
-@interface SecondViewController : UIViewController
-
+@interface SecondViewController : UIViewController<FirstViewControllerDelegate>
+{
+    IBOutlet UILabel *tempC;
+    
+    IBOutlet UILabel *speedW;
+    
+    IBOutlet UILabel *location;
+    
+    IBOutlet UILabel *tempF;
+    
+    IBOutlet UIImageView *imgW;
+    
+    IBOutlet UILabel *datetime;
+}
 @end
