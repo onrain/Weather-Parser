@@ -22,11 +22,13 @@
     UILabel *emptySearch;
 }
 
-//-(IBAction)locationPassed:(id)sender;
+-(IBAction)closeKey:(id)sender;
 
 @property(nonatomic, retain) IBOutlet UITableView *searchTable;
 
 @property(nonatomic, retain) IBOutlet UISearchBar *search_Bar;
+
+@property(nonatomic, retain) IBOutlet UIBarButtonItem *closeSearch;
 
 @property(weak, nonatomic) id<FirstViewControllerDelegate> delegate;
 

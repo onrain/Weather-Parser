@@ -40,7 +40,7 @@
 -(void)passendLocationDate:(FirstViewController *)controller data:(NSString *)locationDate {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        NSData *responseData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@&q=%@", meteo_uri, locationDate]]];
+        NSData *responseData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@&q=%@",    meteo_uri, locationDate]]];
         NSDictionary *json = nil;
         if(responseData) {
             json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
@@ -50,13 +50,10 @@
             [self updateUIWithDictionary:json];
         });
     });
-
 }
 
 -(void) updateUIWithDictionary:(NSDictionary *) json {
-        
-    NSLog(@"%@", json);
-    
+
     NSString *tC = [[[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0] valueForKey:@"temp_C"];
     NSString *tF = [[[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0] valueForKey:@"temp_F"];
     NSString *WSpeed = [[[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0] valueForKey:@"windspeedKmph"];
@@ -70,7 +67,7 @@
     NSURL *url = [NSURL URLWithString:image_url];
         
     UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
-        
+    image = [self imageWithBorderFromImage:image];
         
     [imgW setImage:image];
         
@@ -81,7 +78,20 @@
     datetime.text = [NSString stringWithFormat:@"%@", dTime];
 }
 
-
+- (UIImage*)imageWithBorderFromImage:(UIImage*)source
+{
+    CGSize size = [source size];
+    UIGraphicsBeginImageContext(size);
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    [source drawInRect:rect blendMode:kCGBlendModeNormal alpha:1.0];
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetRGBStrokeColor(context, 102.0, 102.0, 102.0, 1.0);
+    CGContextStrokeRect(context, rect);
+    UIImage *testImg =  UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return testImg;
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);

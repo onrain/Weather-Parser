@@ -18,6 +18,7 @@
 
 @synthesize search_Bar;
 @synthesize searchTable;
+@synthesize closeSearch;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,7 +34,12 @@
 {
     [super viewDidLoad];
     [searchTable setHidden:YES];
-    
+    [[[[[self tabBarController] tabBar] items] objectAtIndex:1] setEnabled:NO];
+
+}
+
+-(void) closeKey:(id)sender {
+    [self.view endEditing:YES];
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -45,9 +51,8 @@
         
             NSData *responseData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@&query=%@", search_uri, query]]];
             NSDictionary *json = nil;
-            if(responseData) {
-                json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-            }
+
+            json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
            
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self updateUIWithDictionary:json];
@@ -60,17 +65,15 @@
 -(void) updateUIWithDictionary:(NSDictionary *) json {
     @try {
 
-       search_result = [[json objectForKey:@"search_api"] objectForKey:@"result"];
-
-       [searchTable setHidden:NO];
-       [searchTable reloadData];
-
+        search_result = [[json objectForKey:@"search_api"] objectForKey:@"result"];
+        [searchTable setHidden:NO];
+        [searchTable reloadData];
 
     }
     @catch (NSException *exception) {
         [searchTable setHidden:YES];
         emptySearch = [[UILabel alloc] initWithFrame:CGRectMake(60, 200, 200, 20)];
-        emptySearch.text = @"Empty";
+        emptySearch.text = @"Not found!";
         emptySearch.textAlignment = UITextAlignmentCenter;
         [self.view addSubview:emptySearch];
     }
@@ -109,7 +112,7 @@
     value = [value stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     country = [country stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:1];
-    
+    [[[[[self tabBarController] tabBar] items] objectAtIndex:1] setEnabled:YES];
     [self.delegate passendLocationDate:self data:[NSString stringWithFormat:@"%@,%@", value, country]];
     
 }
