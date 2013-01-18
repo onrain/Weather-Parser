@@ -32,11 +32,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [searchTable setHidden:YES];
+    
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
-    
+    [emptySearch removeFromSuperview];
     NSString *query = searchBar.text;
     if([query length] != 0) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -59,32 +61,46 @@
     @try {
 
        search_result = [[json objectForKey:@"search_api"] objectForKey:@"result"];
+        
+        if([search_result count] != 0) {
+            [searchTable setHidden:NO];
+            [searchTable reloadData];
+        }
 
     }
     @catch (NSException *exception) {
-        [[[UIAlertView alloc] initWithTitle:@"Error"
-                                    message:@"Could not parse the JSON feed."
-                                   delegate:nil
-                          cancelButtonTitle:@"Close"
-                          otherButtonTitles: nil] show];
-        NSLog(@"Exception: %@", exception);
+        [searchTable setHidden:YES];
+        emptySearch = [[UILabel alloc] initWithFrame:CGRectMake(60, 200, 200, 20)];
+        emptySearch.text = @"Empty";
+        emptySearch.textAlignment = UITextAlignmentCenter;
+        [self.view addSubview:emptySearch];
     }
 }
 
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
-    return 0;
+    return 1;
 }
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"%i", [search_result count]);
     return [search_result count];
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *simpleTableIdentifier = @"RecipeCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+    
+    NSString *region = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"region"] objectAtIndex:0] objectForKey:@"value"];
+    NSString *country = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"country"] objectAtIndex:0] objectForKey:@"value"];
+   NSString *value = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"areaName"] objectAtIndex:0] objectForKey:@"value"];
+     
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ / %@ / %@", value, region, country];
 
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Resault search"];
-        
-    cell.textLabel.text = @"Hello amigos!";
     
     return cell;
 }
