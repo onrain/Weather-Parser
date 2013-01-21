@@ -51,12 +51,15 @@
         
             NSData *responseData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@&query=%@", search_uri, query]]];
             NSDictionary *json = nil;
-
-            json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-           
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self updateUIWithDictionary:json];
-            });
+            @try {
+                 json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                    [self updateUIWithDictionary:json];
+                });
+            }
+            @catch (NSException *exception) {
+                
+            }
         });
     }
 

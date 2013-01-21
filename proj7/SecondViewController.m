@@ -7,12 +7,14 @@
 //
 
 #import "SecondViewController.h"
-#define meteo_uri @"http://free.worldweatheronline.com/feed/weather.ashx?format=json&num_of_days=2&key=5198c44b43130913131401"
+#define meteo_uri @"http://free.worldweatheronline.com/feed/weather.ashx?format=json&key=5198c44b43130913131401&num_of_days=3"
 @interface SecondViewController ()
 
 @end
 
 @implementation SecondViewController
+
+@synthesize detail_table;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,7 +36,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+
 }
 
 -(void)passendLocationDate:(FirstViewController *)controller data:(NSString *)locationDate {
@@ -48,14 +50,16 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self updateUIWithDictionary:json];
+            [detail_table reloadData];
         });
     });
 }
 
 -(void) updateUIWithDictionary:(NSDictionary *) json {
-
+    
+    search_result = [[json objectForKey:@"data"] objectForKey:@"weather"];
+    
     NSString *tC = [[[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0] valueForKey:@"temp_C"];
-    NSString *tF = [[[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0] valueForKey:@"temp_F"];
     NSString *WSpeed = [[[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0] valueForKey:@"windspeedKmph"];
     NSString *city = [[[[json objectForKey:@"data" ] valueForKey:@"request"] objectAtIndex:0] objectForKey:@"query"];
         
@@ -67,15 +71,60 @@
     NSURL *url = [NSURL URLWithString:image_url];
         
     UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
+    
     image = [self imageWithBorderFromImage:image];
-        
+
     [imgW setImage:image];
-        
-    tempC.text = [NSString stringWithFormat:@"С: %@", tC];
-    tempF.text = [NSString stringWithFormat:@"F: %@", tF];
+     
+    tempC.text = [NSString stringWithFormat:@"%@ °", tC];
     speedW.text = [NSString stringWithFormat:@"Wind speed: %@ km", WSpeed];
     location.text = [NSString stringWithFormat:@"%@", city];
     datetime.text = [NSString stringWithFormat:@"%@", dTime];
+}
+
+
+-(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+-(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 3;
+}
+
+
+-(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *simpleTableIdentifier = @"RecipeCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+    if(search_result) {
+        
+        NSString *minC = [[search_result objectAtIndex:indexPath.row] valueForKey:@"tempMinC"];
+        
+
+        NSString *maxC = [[search_result objectAtIndex:indexPath.row] valueForKey:@"tempMaxC"];
+        NSString *date = [[search_result objectAtIndex:indexPath.row] valueForKey:@"date"];
+        NSString *desc = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"weatherDesc"] objectAtIndex:0] valueForKey:@"value"];
+        //NSString *image_url = [[[[arr_result objectAtIndex:indexPath.row] objectForKey:@"weatherIconUrl"] objectAtIndex:0] valueForKey:@"value"];
+    
+    
+  //  NSURL *url = [NSURL URLWithString:image_url];
+
+   // UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
+
+   // image = [self imageWithBorderFromImage:image];
+    
+        NSString *result = [NSString stringWithFormat:@"min %@ max %@ %@ %@", minC, maxC, date, desc];
+    
+        cell.textLabel.text = result;
+    
+  //  cell.imageView.image = image;
+    }
+    return cell;
 }
 
 - (UIImage*)imageWithBorderFromImage:(UIImage*)source

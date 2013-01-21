@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FirstViewController.h"
 
-@interface SecondViewController : UIViewController<FirstViewControllerDelegate>
+@interface SecondViewController : UIViewController<FirstViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     IBOutlet UILabel *tempC;
     
@@ -17,10 +17,13 @@
     
     IBOutlet UILabel *location;
     
-    IBOutlet UILabel *tempF;
-    
     IBOutlet UIImageView *imgW;
     
     IBOutlet UILabel *datetime;
+    
+    NSArray *search_result;
 }
+
+@property(nonatomic, retain) IBOutlet UITableView *detail_table;
+
 @end
