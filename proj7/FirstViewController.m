@@ -47,10 +47,11 @@
     [emptySearch removeFromSuperview];
     NSString *query = searchBar.text;
     if([query length] != 0) {
+        query = [query stringByReplacingOccurrencesOfString:@" " withString:@"+"];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
             NSData *responseData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@&query=%@", search_uri, query]]];
             NSDictionary *json = nil;
+
             @try {
                  json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
                  dispatch_async(dispatch_get_main_queue(), ^{
@@ -58,7 +59,11 @@
                 });
             }
             @catch (NSException *exception) {
-                
+                [searchTable setHidden:YES];
+                emptySearch = [[UILabel alloc] initWithFrame:CGRectMake(60, 200, 200, 20)];
+                emptySearch.text = @"Not found!";
+                emptySearch.textAlignment = UITextAlignmentCenter;
+                [self.view addSubview:emptySearch];
             }
         });
     }
@@ -67,7 +72,6 @@
 
 -(void) updateUIWithDictionary:(NSDictionary *) json {
     @try {
-
         search_result = [[json objectForKey:@"search_api"] objectForKey:@"result"];
         [searchTable setHidden:NO];
         [searchTable reloadData];

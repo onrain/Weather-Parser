@@ -20,7 +20,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"About", @"About");
+        self.title = NSLocalizedString(@"Details", @"Details");
         self.tabBarItem.image = [UIImage imageNamed:@"s"];
     }
     return self;
@@ -109,20 +109,20 @@
         NSString *maxC = [[search_result objectAtIndex:indexPath.row] valueForKey:@"tempMaxC"];
         NSString *date = [[search_result objectAtIndex:indexPath.row] valueForKey:@"date"];
         NSString *desc = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"weatherDesc"] objectAtIndex:0] valueForKey:@"value"];
-        //NSString *image_url = [[[[arr_result objectAtIndex:indexPath.row] objectForKey:@"weatherIconUrl"] objectAtIndex:0] valueForKey:@"value"];
+        NSString *image_url = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"weatherIconUrl"] objectAtIndex:0] valueForKey:@"value"];
     
     
-  //  NSURL *url = [NSURL URLWithString:image_url];
-
-   // UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
-
-   // image = [self imageWithBorderFromImage:image];
+        NSURL *url = [NSURL URLWithString:image_url];
+        
+        UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
+        image = [self imageWithBorderFromImage:image];
     
-        NSString *result = [NSString stringWithFormat:@"min %@ max %@ %@ %@", minC, maxC, date, desc];
-    
+        NSString *result = [NSString stringWithFormat:@"min %@ max %@ \n%@ %@", minC, maxC, desc, date];
+        cell.textLabel.numberOfLines = 0;
+        cell.textLabel.font = [UIFont systemFontOfSize:14];
         cell.textLabel.text = result;
-    
-  //  cell.imageView.image = image;
+        cell.textLabel.lineBreakMode = YES;
+        cell.imageView.image = image;
     }
     return cell;
 }

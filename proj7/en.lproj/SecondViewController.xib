@@ -50,7 +50,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">C</string>
+						<string key="IBUIText"/>
 						<object class="NSColor" key="IBUITextColor" id="472248931">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC45Njg2Mjc0NTEgMC45Njg2Mjc0NTEgMC45Njg2Mjc0NTEAA</bytes>
@@ -71,7 +71,7 @@
 					<object class="IBUILabel" id="273925715">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{103, 150}, {90, 21}}</string>
+						<string key="NSFrame">{{103, 152}, {90, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="770166287"/>
@@ -81,7 +81,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">speed</string>
+						<string key="IBUIText"/>
 						<reference key="IBUITextColor" ref="472248931"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
@@ -99,7 +99,7 @@
 					<object class="IBUILabel" id="226607372">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{36, 14}, {202, 21}}</string>
+						<string key="NSFrame">{{36, 14}, {202, 45}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="938868652"/>
@@ -109,7 +109,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">location</string>
+						<string key="IBUIText"/>
 						<reference key="IBUITextColor" ref="472248931"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
@@ -137,7 +137,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">date</string>
+						<string key="IBUIText"/>
 						<reference key="IBUITextColor" ref="472248931"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
@@ -162,7 +162,6 @@
 						<string key="NSFrame">{{0, 280}, {320, 131}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">2</int>
@@ -282,11 +281,11 @@
 						<reference key="object" ref="191373211"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="294812318"/>
-							<reference ref="273925715"/>
 							<reference ref="226607372"/>
 							<reference ref="938868652"/>
 							<reference ref="770166287"/>
 							<reference ref="952132550"/>
+							<reference ref="273925715"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -358,7 +357,6 @@
 					<string key="className">SecondViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="datail_table">UITableView</string>
 						<string key="datetime">UILabel</string>
 						<string key="detail_table">UITableView</string>
 						<string key="imgW">UIImageView</string>
@@ -367,10 +365,6 @@
 						<string key="tempC">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="datail_table">
-							<string key="name">datail_table</string>
-							<string key="candidateClassName">UITableView</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="datetime">
 							<string key="name">datetime</string>
 							<string key="candidateClassName">UILabel</string>
