@@ -64,8 +64,8 @@
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         if (error == nil && [placemarks count] > 0) {
             placemark = [placemarks lastObject];
-            NSLog(@"%@ %@\n", placemark.administrativeArea, placemark.country);
-            [self searchWithParams:placemark.administrativeArea];
+            NSLog(@"%@ %@\n", placemark.locality, placemark.country);
+            [self searchWithParams:placemark.locality];
             [locationManager stopUpdatingLocation];
         }
     } ];
