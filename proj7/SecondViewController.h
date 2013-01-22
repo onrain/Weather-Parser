@@ -11,22 +11,21 @@
 
 @interface SecondViewController : UIViewController<FirstViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 {
-    IBOutlet UILabel *tempC;
-    
-    IBOutlet UILabel *speedW;
-    
-    IBOutlet UILabel *location;
-    
-    IBOutlet UIImageView *imgW;
-    
-    IBOutlet UILabel *datetime;
-    
     NSArray *search_result;
-    
-    IBOutlet UILabel *wDesc;
 }
 
+@property(nonatomic, retain) IBOutlet UILabel *tempC;
+    
+@property(nonatomic, retain) IBOutlet UILabel *speedW;
+    
+@property(nonatomic, retain) IBOutlet UILabel *location;
+    
+@property(nonatomic, retain) IBOutlet UIImageView *imgW;
+    
+@property(nonatomic, retain) IBOutlet UILabel *datetime;
+    
+@property(nonatomic, retain) IBOutlet UILabel *wDesc;
+
 @property(nonatomic, retain) IBOutlet UITableView *detail_table;
-- (IBAction)getCurrentLocation:(id)sender;
 
 @end

@@ -38,4 +38,6 @@
 
 @property(weak, nonatomic) id<FirstViewControllerDelegate> delegate;
 
+- (IBAction)getCurrentLocation:(id)sender;
+
 @end

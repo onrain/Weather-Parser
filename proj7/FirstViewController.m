@@ -36,7 +36,6 @@
     [super viewDidLoad];
     [searchTable setHidden:YES];
     [[[[[self tabBarController] tabBar] items] objectAtIndex:1] setEnabled:NO];
-    
     locationManager = [[CLLocationManager alloc] init];
     geocoder = [[CLGeocoder alloc] init];
 
@@ -45,7 +44,6 @@
 - (IBAction)getCurrentLocation:(id)sender {
     locationManager.delegate = self;
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    
     [locationManager startUpdatingLocation];
 }
 
@@ -60,11 +58,10 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     CLLocation *currentLocation = newLocation;
-
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         if (error == nil && [placemarks count] > 0) {
             placemark = [placemarks lastObject];
-            NSLog(@"%@ %@\n", placemark.locality, placemark.country);
+            //NSLog(@"%@ %@\n", placemark.locality, placemark.country);
             [self searchWithParams:placemark.locality];
             [locationManager stopUpdatingLocation];
         }
@@ -83,7 +80,6 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSData *responseData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@&query=%@", search_uri, query]]];
             NSDictionary *json = nil;
-            
             @try {
                 json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -114,7 +110,6 @@
         search_result = [[json objectForKey:@"search_api"] objectForKey:@"result"];
         [searchTable setHidden:NO];
         [searchTable reloadData];
-
     }
     @catch (NSException *exception) {
         [searchTable setHidden:YES];
@@ -136,18 +131,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *simpleTableIdentifier = @"RecipeCell";
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
-    
     NSString *region = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"region"] objectAtIndex:0] objectForKey:@"value"];
     NSString *country = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"country"] objectAtIndex:0] objectForKey:@"value"];
     NSString *value = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"areaName"] objectAtIndex:0] objectForKey:@"value"];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ / %@ / %@", value, region, country];
-
     return cell;
 }
 
