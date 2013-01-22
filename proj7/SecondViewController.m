@@ -67,7 +67,8 @@
         
     NSString *image_url = [[[[[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0] objectForKey:@"weatherIconUrl"] objectAtIndex:0] objectForKey:@"value"];
 
-        
+    NSString *desc = [[[[[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0] objectForKey:@"weatherDesc"] objectAtIndex:0] objectForKey:@"value"];
+    
     NSURL *url = [NSURL URLWithString:image_url];
         
     UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
@@ -80,6 +81,7 @@
     speedW.text = [NSString stringWithFormat:@"Wind speed: %@ km", WSpeed];
     location.text = [NSString stringWithFormat:@"%@", city];
     datetime.text = [NSString stringWithFormat:@"%@", dTime];
+    wDesc.text = [NSString stringWithFormat:@"%@", desc];
 }
 
 

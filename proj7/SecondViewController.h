@@ -22,6 +22,8 @@
     IBOutlet UILabel *datetime;
     
     NSArray *search_result;
+    
+    IBOutlet UILabel *wDesc;
 }
 
 @property(nonatomic, retain) IBOutlet UITableView *detail_table;
