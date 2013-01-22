@@ -47,7 +47,7 @@
 						<string key="NSFrame">{{0, 44}, {320, 322}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="35480262"/>
+						<reference key="NSNextKeyView" ref="627883273"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="1003040439">
 							<int key="NSColorSpace">3</int>
@@ -90,7 +90,7 @@
 					<object class="IBUISearchBar" id="65642114">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrameSize">{183, 44}</string>
+						<string key="NSFrameSize">{251, 44}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="638788948"/>
@@ -102,7 +102,7 @@
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						</object>
 					</object>
-					<object class="IBUIButton" id="35480262">
+					<object class="IBUIButton" id="627883273">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{94, 370}, {132, 37}}</string>
@@ -250,7 +250,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">getCurrentLocation:</string>
-						<reference key="source" ref="35480262"/>
+						<reference key="source" ref="627883273"/>
 						<reference key="destination" ref="263589821"/>
 						<int key="IBEventType">1</int>
 					</object>
@@ -272,7 +272,7 @@
 							<reference ref="638788948"/>
 							<reference ref="680558430"/>
 							<reference ref="65642114"/>
-							<reference ref="35480262"/>
+							<reference ref="627883273"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -312,7 +312,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">60</int>
-						<reference key="object" ref="35480262"/>
+						<reference key="object" ref="627883273"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
