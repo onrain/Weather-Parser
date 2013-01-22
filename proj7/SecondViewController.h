@@ -27,5 +27,6 @@
 }
 
 @property(nonatomic, retain) IBOutlet UITableView *detail_table;
+- (IBAction)getCurrentLocation:(id)sender;
 
 @end

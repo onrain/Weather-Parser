@@ -16,6 +16,7 @@
 
 @implementation FirstViewController
 
+
 @synthesize search_Bar;
 @synthesize searchTable;
 @synthesize closeSearch;
@@ -35,26 +36,57 @@
     [super viewDidLoad];
     [searchTable setHidden:YES];
     [[[[[self tabBarController] tabBar] items] objectAtIndex:1] setEnabled:NO];
+    
+    locationManager = [[CLLocationManager alloc] init];
+    geocoder = [[CLGeocoder alloc] init];
 
 }
+
+- (IBAction)getCurrentLocation:(id)sender {
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    [locationManager startUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError: %@", error);
+    UIAlertView *errorAlert = [[UIAlertView alloc]
+                               initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [errorAlert show];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    CLLocation *currentLocation = newLocation;
+
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        if (error == nil && [placemarks count] > 0) {
+            placemark = [placemarks lastObject];
+            NSLog(@"%@ %@\n", placemark.administrativeArea, placemark.country);
+            [self searchWithParams:placemark.administrativeArea];
+            [locationManager stopUpdatingLocation];
+        }
+    } ];
+}
+
+
 
 -(void) closeKey:(id)sender {
     [self.view endEditing:YES];
 }
 
--(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [searchBar resignFirstResponder];
-    [emptySearch removeFromSuperview];
-    NSString *query = searchBar.text;
+-(void)searchWithParams:(NSString *) query {
     if([query length] != 0) {
         query = [query stringByReplacingOccurrencesOfString:@" " withString:@"+"];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSData *responseData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@&query=%@", search_uri, query]]];
             NSDictionary *json = nil;
-
+            
             @try {
-                 json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-                 dispatch_async(dispatch_get_main_queue(), ^{
+                json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+                dispatch_async(dispatch_get_main_queue(), ^{
                     [self updateUIWithDictionary:json];
                 });
             }
@@ -67,7 +99,14 @@
             }
         });
     }
+}
 
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    [emptySearch removeFromSuperview];
+    NSString *query = searchBar.text;
+    [self searchWithParams:query];
 }
 
 -(void) updateUIWithDictionary:(NSDictionary *) json {

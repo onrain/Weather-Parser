@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84036CD116AE879100ACA492 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84036CD016AE879100ACA492 /* CoreLocation.framework */; };
 		841FE87F16A981900091AF6A /* f.png in Resources */ = {isa = PBXBuildFile; fileRef = 841FE87E16A9818F0091AF6A /* f.png */; };
 		841FE88116A981960091AF6A /* s.png in Resources */ = {isa = PBXBuildFile; fileRef = 841FE88016A981960091AF6A /* s.png */; };
 		84F6B5FA16A824290051A3A8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F6B5F916A824290051A3A8 /* UIKit.framework */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		84036CD016AE879100ACA492 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		841FE87E16A9818F0091AF6A /* f.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = f.png; sourceTree = "<group>"; };
 		841FE88016A981960091AF6A /* s.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = s.png; sourceTree = "<group>"; };
 		84F6B5F516A824290051A3A8 /* proj7.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = proj7.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84036CD116AE879100ACA492 /* CoreLocation.framework in Frameworks */,
 				84F6B5FA16A824290051A3A8 /* UIKit.framework in Frameworks */,
 				84F6B5FC16A824290051A3A8 /* Foundation.framework in Frameworks */,
 				84F6B5FE16A824290051A3A8 /* CoreGraphics.framework in Frameworks */,
@@ -86,6 +89,7 @@
 		84F6B5FF16A824290051A3A8 /* proj7 */ = {
 			isa = PBXGroup;
 			children = (
+				84036CD016AE879100ACA492 /* CoreLocation.framework */,
 				84F6B60816A824290051A3A8 /* AppDelegate.h */,
 				84F6B60916A824290051A3A8 /* AppDelegate.m */,
 				841FE87E16A9818F0091AF6A /* f.png */,

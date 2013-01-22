@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+
 @class FirstViewController;
 
 @protocol FirstViewControllerDelegate <NSObject>
@@ -15,11 +17,15 @@
 
 @end
 
-@interface FirstViewController : UIViewController<UISearchBarDelegate, UITabBarControllerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface FirstViewController : UIViewController<UISearchBarDelegate, UITabBarControllerDelegate, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate>
 {
     __weak id <FirstViewControllerDelegate> delegate;
     NSArray *search_result;
     UILabel *emptySearch;
+
+    CLLocationManager *locationManager;
+    CLGeocoder *geocoder;
+    CLPlacemark *placemark;
 }
 
 -(IBAction)closeKey:(id)sender;
