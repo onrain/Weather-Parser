@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		84036CD116AE879100ACA492 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84036CD016AE879100ACA492 /* CoreLocation.framework */; };
+		840639C916B17CBB009852BB /* people_.png in Resources */ = {isa = PBXBuildFile; fileRef = 840639C816B17CBB009852BB /* people_.png */; };
 		841FE87F16A981900091AF6A /* f.png in Resources */ = {isa = PBXBuildFile; fileRef = 841FE87E16A9818F0091AF6A /* f.png */; };
 		841FE88116A981960091AF6A /* s.png in Resources */ = {isa = PBXBuildFile; fileRef = 841FE88016A981960091AF6A /* s.png */; };
 		84F6B5FA16A824290051A3A8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F6B5F916A824290051A3A8 /* UIKit.framework */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		84036CD016AE879100ACA492 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		840639C816B17CBB009852BB /* people_.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = people_.png; sourceTree = "<group>"; };
 		841FE87E16A9818F0091AF6A /* f.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = f.png; sourceTree = "<group>"; };
 		841FE88016A981960091AF6A /* s.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = s.png; sourceTree = "<group>"; };
 		84F6B5F516A824290051A3A8 /* proj7.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = proj7.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +98,7 @@
 				841FE88016A981960091AF6A /* s.png */,
 				84F6B60B16A824290051A3A8 /* FirstViewController.h */,
 				84F6B61216A8242A0051A3A8 /* SecondViewController.h */,
+				840639C816B17CBB009852BB /* people_.png */,
 				84F6B60C16A824290051A3A8 /* FirstViewController.m */,
 				84F6B61316A8242A0051A3A8 /* SecondViewController.m */,
 				84F6B61916A8242B0051A3A8 /* FirstViewController.xib */,
@@ -172,6 +175,7 @@
 				84F6B61E16A8242B0051A3A8 /* SecondViewController.xib in Resources */,
 				841FE87F16A981900091AF6A /* f.png in Resources */,
 				841FE88116A981960091AF6A /* s.png in Resources */,
+				840639C916B17CBB009852BB /* people_.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
