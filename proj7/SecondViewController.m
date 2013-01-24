@@ -14,7 +14,7 @@
 
 @implementation SecondViewController
 
-@synthesize detail_table, tempC, speedW, location, imgW, datetime, wDesc;
+@synthesize detail_table, tempC, speedW, location, imgW, datetime, wDesc, indicator;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,6 +31,9 @@
     [super viewDidLoad];
 	FirstViewController *first = [self.tabBarController.viewControllers objectAtIndex:0];
     first.delegate = self;
+    [detail_table setHidden:YES];
+    [indicator startAnimating];
+    
 }
 
 - (void)viewDidUnload
@@ -46,6 +49,9 @@
             json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            [indicator stopAnimating];
+            indicator.hidden = YES;
+            [detail_table setHidden:NO];
             [self updateUIWithDictionary:json];
             [detail_table reloadData];
         });

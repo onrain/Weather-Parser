@@ -36,6 +36,8 @@
 
 @property(nonatomic, retain) IBOutlet UIBarButtonItem *closeSearch;
 
+@property IBOutlet UIActivityIndicatorView *indicator;
+
 @property(weak, nonatomic) id<FirstViewControllerDelegate> delegate;
 
 - (IBAction)getCurrentLocation:(id)sender;

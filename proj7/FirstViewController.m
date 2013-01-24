@@ -17,9 +17,7 @@
 @implementation FirstViewController
 
 
-@synthesize search_Bar;
-@synthesize searchTable;
-@synthesize closeSearch;
+@synthesize search_Bar, searchTable, closeSearch, indicator;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,6 +33,7 @@
 {
     [super viewDidLoad];
     [searchTable setHidden:YES];
+    indicator.hidden = YES;
     [[[[[self tabBarController] tabBar] items] objectAtIndex:1] setEnabled:NO];
     locationManager = [[CLLocationManager alloc] init];
     geocoder = [[CLGeocoder alloc] init];
@@ -42,6 +41,8 @@
 }
 
 - (IBAction)getCurrentLocation:(id)sender {
+    indicator.hidden = NO;
+    [indicator startAnimating];
     locationManager.delegate = self;
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     [locationManager startUpdatingLocation];
@@ -49,6 +50,8 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
+    indicator.hidden = YES;
+    [indicator stopAnimating];
     NSLog(@"didFailWithError: %@", error);
     UIAlertView *errorAlert = [[UIAlertView alloc]
                                initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -61,7 +64,6 @@
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         if (error == nil && [placemarks count] > 0) {
             placemark = [placemarks lastObject];
-            //NSLog(@"%@ %@\n", placemark.locality, placemark.country);
             [self searchWithParams:placemark.locality];
             [locationManager stopUpdatingLocation];
         }
@@ -75,6 +77,8 @@
 }
 
 -(void)searchWithParams:(NSString *) query {
+    indicator.hidden = NO;
+    [indicator startAnimating];
     if([query length] != 0) {
         query = [query stringByReplacingOccurrencesOfString:@" " withString:@"+"];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -88,6 +92,8 @@
             }
             @catch (NSException *exception) {
                 [searchTable setHidden:YES];
+                [indicator stopAnimating];
+                indicator.hidden = YES;
                 emptySearch = [[UILabel alloc] initWithFrame:CGRectMake(60, 200, 200, 20)];
                 emptySearch.text = @"Not found!";
                 emptySearch.textAlignment = UITextAlignmentCenter;
@@ -109,10 +115,14 @@
     @try {
         search_result = [[json objectForKey:@"search_api"] objectForKey:@"result"];
         [searchTable setHidden:NO];
+        indicator.hidden = YES;
+        [indicator stopAnimating];
         [searchTable reloadData];
     }
     @catch (NSException *exception) {
         [searchTable setHidden:YES];
+        indicator.hidden = YES;
+        [indicator stopAnimating];
         emptySearch = [[UILabel alloc] initWithFrame:CGRectMake(60, 200, 200, 20)];
         emptySearch.text = @"Not found!";
         emptySearch.textAlignment = UITextAlignmentCenter;
