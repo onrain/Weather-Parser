@@ -19,10 +19,9 @@
 
 @interface FirstViewController : UIViewController<UISearchBarDelegate, UITabBarControllerDelegate, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate>
 {
-    __weak id <FirstViewControllerDelegate> delegate;
-    NSArray *search_result;
+    __unsafe_unretained id <FirstViewControllerDelegate> delegate;
     UILabel *emptySearch;
-
+    NSArray *search_result;
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
@@ -30,15 +29,17 @@
 
 -(IBAction)closeKey:(id)sender;
 
+@property(nonatomic, retain) NSArray *search_result;
+
 @property(nonatomic, retain) IBOutlet UITableView *searchTable;
 
 @property(nonatomic, retain) IBOutlet UISearchBar *search_Bar;
 
 @property(nonatomic, retain) IBOutlet UIBarButtonItem *closeSearch;
 
-@property IBOutlet UIActivityIndicatorView *indicator;
+@property(nonatomic, retain) IBOutlet UIActivityIndicatorView *indicator;
 
-@property(weak, nonatomic) id<FirstViewControllerDelegate> delegate;
+@property(unsafe_unretained, nonatomic) id<FirstViewControllerDelegate> delegate;
 
 - (IBAction)getCurrentLocation:(id)sender;
 

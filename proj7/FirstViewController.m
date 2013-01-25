@@ -17,7 +17,7 @@
 @implementation FirstViewController
 
 
-@synthesize search_Bar, searchTable, closeSearch, indicator;
+@synthesize search_Bar, searchTable, closeSearch, indicator, search_result;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,6 +40,11 @@
 
 }
 
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+}
+
 - (IBAction)getCurrentLocation:(id)sender {
     indicator.hidden = NO;
     [indicator startAnimating];
@@ -58,6 +63,8 @@
     [errorAlert show];
 }
 
+
+
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     CLLocation *currentLocation = newLocation;
@@ -68,6 +75,12 @@
             [locationManager stopUpdatingLocation];
         }
     } ];
+}
+
+-(void)dealloc {
+    [locationManager release];
+    [geocoder release];
+    [super dealloc];
 }
 
 
@@ -112,8 +125,8 @@
 }
 
 -(void) updateUIWithDictionary:(NSDictionary *) json {
-    @try {
-        search_result = [[json objectForKey:@"search_api"] objectForKey:@"result"];
+    @try { 
+        search_result = [[[json objectForKey:@"search_api"] objectForKey:@"result"] retain];
         [searchTable setHidden:NO];
         indicator.hidden = YES;
         [indicator stopAnimating];
@@ -145,6 +158,7 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
+
     NSString *region = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"region"] objectAtIndex:0] objectForKey:@"value"];
     NSString *country = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"country"] objectAtIndex:0] objectForKey:@"value"];
     NSString *value = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"areaName"] objectAtIndex:0] objectForKey:@"value"];
@@ -162,11 +176,6 @@
     [[[[[self tabBarController] tabBar] items] objectAtIndex:1] setEnabled:YES];
     [self.delegate passendLocationDate:self data:[NSString stringWithFormat:@"%@,%@", value, country]];
     
-}
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

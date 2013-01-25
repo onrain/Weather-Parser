@@ -28,6 +28,6 @@
 
 @property(nonatomic, retain) IBOutlet UITableView *detail_table;
 
-@property IBOutlet UIActivityIndicatorView *indicator;
+@property(nonatomic, retain) IBOutlet UIActivityIndicatorView *indicator;
 
 @end

@@ -14,6 +14,14 @@
 
 @implementation AppDelegate
 
+
+- (void)dealloc
+{
+    [_window release];
+    [_tabBarController release];
+    [super dealloc];
+ }
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

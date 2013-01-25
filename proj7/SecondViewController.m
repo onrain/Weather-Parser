@@ -33,6 +33,9 @@
     first.delegate = self;
     [detail_table setHidden:YES];
     [indicator startAnimating];
+    UIColor *bg = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"images.png"]];
+    self.view.backgroundColor = bg;
+    [bg release];
     
 }
 
@@ -60,7 +63,7 @@
 
 -(void) updateUIWithDictionary:(NSDictionary *) json {
     
-    search_result = [[json objectForKey:@"data"] objectForKey:@"weather"];
+    search_result = [[[json objectForKey:@"data"] objectForKey:@"weather"] retain];
     NSURL *url = [NSURL URLWithString:
                   [[[[[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0] objectForKey:@"weatherIconUrl"] objectAtIndex:0] objectForKey:@"value"]];
         
