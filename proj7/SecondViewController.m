@@ -33,10 +33,7 @@
     first.delegate = self;
     [detail_table setHidden:YES];
     [indicator startAnimating];
-    UIColor *bg = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"images.png"]];
-    self.view.backgroundColor = bg;
-    [bg release];
-    
+    self.view.backgroundColor = [UIColor blackColor];    
 }
 
 - (void)viewDidUnload
