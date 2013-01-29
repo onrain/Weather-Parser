@@ -107,7 +107,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
   
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier] autorelease];
     }
     if(search_result) {
         
@@ -134,7 +134,6 @@
         cell.textLabel.lineBreakMode = YES;
         cell.imageView.image = image;
     }
-    
     return cell;
 }
 
