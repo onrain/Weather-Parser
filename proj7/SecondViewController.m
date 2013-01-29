@@ -14,7 +14,7 @@
 
 @implementation SecondViewController
 
-@synthesize detail_table, tempC, speedW, location, imgW, datetime, wDesc, indicator;
+@synthesize detail_table, tempC, speedW, location, imgW, datetime, wDesc, indicator, searchValue;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -61,27 +61,33 @@
 -(void) updateUIWithDictionary:(NSDictionary *) json {
     
     search_result = [[[json objectForKey:@"data"] objectForKey:@"weather"] retain];
-    NSURL *url = [NSURL URLWithString:
-                  [[[[[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0] objectForKey:@"weatherIconUrl"] objectAtIndex:0] objectForKey:@"value"]];
-        
+    
+    NSDictionary *dataCondition = [[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0];
+    
+    NSDictionary *data = [json objectForKey:@"data"];
+    
+    NSURL *url = [NSURL URLWithString:[[[dataCondition objectForKey:@"weatherIconUrl"] objectAtIndex:0] objectForKey:@"value"]];
+          
     UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
+    
     image = [self imageWithBorderFromImage:image];
+    
     [imgW setImage:image];
-     
+    
     tempC.text = [NSString stringWithFormat:@"%@ °",
-                  [[[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0] valueForKey:@"temp_C"]];
+                  [dataCondition valueForKey:@"temp_C"]];
     
     speedW.text = [NSString stringWithFormat:@"Wind speed: %@ km",
-                   [[[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0] valueForKey:@"windspeedKmph"]];
+                   [dataCondition valueForKey:@"windspeedKmph"]];
         
     location.text = [NSString stringWithFormat:@"%@",
-                     [[[[json objectForKey:@"data" ] valueForKey:@"request"] objectAtIndex:0] objectForKey:@"query"]];
+                     [[[data valueForKey:@"request"] objectAtIndex:0] objectForKey:@"query"]];
     
     datetime.text = [NSString stringWithFormat:@"%@",
-                     [[[[json objectForKey:@"data" ] valueForKey:@"weather"] objectAtIndex:0] objectForKey:@"date"]];
+                     [[[data valueForKey:@"weather"] objectAtIndex:0] objectForKey:@"date"]];
     
     wDesc.text = [NSString stringWithFormat:@"%@",
-                    [[[[[[json objectForKey:@"data" ] objectForKey:@"current_condition"] objectAtIndex:0] objectForKey:@"weatherDesc"] objectAtIndex:0] objectForKey:@"value"]];
+                    [[[ dataCondition objectForKey:@"weatherDesc"] objectAtIndex:0] objectForKey:@"value"]];
 }
 
 
@@ -95,28 +101,40 @@
 
 
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *simpleTableIdentifier = @"RecipeCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
+    static NSString *simpleTableIdentifier = @"RecipeCell";
+  
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+  
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
     if(search_result) {
-        NSString *minC = [[search_result objectAtIndex:indexPath.row] valueForKey:@"tempMinC"];
-        NSString *maxC = [[search_result objectAtIndex:indexPath.row] valueForKey:@"tempMaxC"];
-        NSString *date = [[search_result objectAtIndex:indexPath.row] valueForKey:@"date"];
-        NSString *desc = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"weatherDesc"] objectAtIndex:0] valueForKey:@"value"];
-        NSString *image_url = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"weatherIconUrl"] objectAtIndex:0] valueForKey:@"value"];    
+        
+        searchValue = [search_result objectAtIndex:indexPath.row];
+
+        NSString *image_url = [[[searchValue objectForKey:@"weatherIconUrl"] objectAtIndex:0] valueForKey:@"value"];
+ 
         NSURL *url = [NSURL URLWithString:image_url];
+        
         UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
+        
         image = [self imageWithBorderFromImage:image];
-        NSString *result = [NSString stringWithFormat:@"min %@ max %@ \n%@ %@", minC, maxC, desc, date];
+        
+        NSString *result = [NSString stringWithFormat:@"min %@ max %@ \n%@ %@",
+                            [searchValue valueForKey:@"tempMinC"],
+                            [searchValue valueForKey:@"tempMaxC"],
+                            [[[searchValue objectForKey:@"weatherDesc"] objectAtIndex:0] valueForKey:@"value"],
+                            [searchValue valueForKey:@"date"]];
+        
+        
         cell.textLabel.numberOfLines = 0;
         cell.textLabel.font = [UIFont systemFontOfSize:14];
         cell.textLabel.text = result;
         cell.textLabel.lineBreakMode = YES;
         cell.imageView.image = image;
     }
+    
     return cell;
 }
 

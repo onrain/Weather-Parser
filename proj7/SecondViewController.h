@@ -12,7 +12,10 @@
 @interface SecondViewController : UIViewController<FirstViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     NSArray *search_result;
+    NSDictionary *searchValue;
 }
+
+@property(nonatomic, retain) NSDictionary *searchValue;
 
 @property(nonatomic, retain) IBOutlet UILabel *tempC;
     

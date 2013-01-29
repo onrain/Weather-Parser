@@ -25,9 +25,12 @@
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
+    NSDictionary *searchValue;
 }
 
 -(IBAction)closeKey:(id)sender;
+
+@property(nonatomic, retain) NSDictionary *searchValue;
 
 @property(nonatomic, retain) NSArray *search_result;
 

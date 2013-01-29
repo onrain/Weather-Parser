@@ -17,7 +17,7 @@
 @implementation FirstViewController
 
 
-@synthesize search_Bar, searchTable, closeSearch, indicator, search_result;
+@synthesize search_Bar, searchTable, closeSearch, indicator, search_result, searchValue;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,7 +37,6 @@
     [[[[[self tabBarController] tabBar] items] objectAtIndex:1] setEnabled:NO];
     locationManager = [[CLLocationManager alloc] init];
     geocoder = [[CLGeocoder alloc] init];
-
 }
 
 - (void)viewDidUnload
@@ -81,6 +80,7 @@
 -(void)dealloc {
     [locationManager release];
     [geocoder release];
+    [search_result release];
     [super dealloc];
 }
 
@@ -94,10 +94,15 @@
     indicator.hidden = NO;
     [indicator startAnimating];
     if([query length] != 0) {
+        
         query = [query stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
             NSData *responseData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@&query=%@", search_uri, query]]];
+            
             NSDictionary *json = nil;
+            
             @try {
                 json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -154,27 +159,44 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *simpleTableIdentifier = @"RecipeCell";
+    static NSString *simpleTableIdentifier = @"Weather cell";
+   
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+   
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
 
-    NSString *region = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"region"] objectAtIndex:0] objectForKey:@"value"];
-    NSString *country = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"country"] objectAtIndex:0] objectForKey:@"value"];
-    NSString *value = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"areaName"] objectAtIndex:0] objectForKey:@"value"];
+    searchValue = [search_result objectAtIndex:indexPath.row];
+    
+    NSString *region = [[[searchValue objectForKey:@"region"] objectAtIndex:0] objectForKey:@"value"];
+    
+    NSString *country = [[[searchValue objectForKey:@"country"] objectAtIndex:0] objectForKey:@"value"];
+   
+    NSString *value = [[[searchValue objectForKey:@"areaName"] objectAtIndex:0] objectForKey:@"value"];
+    
     cell.textLabel.text = [NSString stringWithFormat:@"%@ / %@ / %@", value, region, country];
+    
     return cell;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *value = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"areaName"] objectAtIndex:0] objectForKey:@"value"];
-    NSString *country = [[[[search_result objectAtIndex:indexPath.row] objectForKey:@"country"] objectAtIndex:0] objectForKey:@"value"];
+    
+    searchValue = [search_result objectAtIndex:indexPath.row];
+    
+    NSString *value = [[[searchValue objectForKey:@"areaName"] objectAtIndex:0] objectForKey:@"value"];
+    
+    NSString *country = [[[searchValue objectForKey:@"country"] objectAtIndex:0] objectForKey:@"value"];
+    
     value = [value stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    
     country = [country stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    
     self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:1];
+    
     [[[[[self tabBarController] tabBar] items] objectAtIndex:1] setEnabled:YES];
+    
     [self.delegate passendLocationDate:self data:[NSString stringWithFormat:@"%@,%@", value, country]];
     
 }
