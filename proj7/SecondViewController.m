@@ -14,7 +14,7 @@
 
 @implementation SecondViewController
 
-@synthesize detail_table, tempC, speedW, location, imgW, datetime, wDesc, indicator, searchValue;
+@synthesize detail_table, tempC, speedW, location, imgW, datetime, wDesc, indicator, searchValue, search_result;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

@@ -21,11 +21,9 @@
 {
     __unsafe_unretained id <FirstViewControllerDelegate> delegate;
     UILabel *emptySearch;
-    NSArray *search_result;
     CLLocationManager *locationManager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
-    NSDictionary *searchValue;
 }
 
 -(IBAction)closeKey:(id)sender;
